@@ -8,10 +8,19 @@ from .direction import Direction
 
 
 class State:
-    """"""
+    """Stav je základní a nejdůležitější entitou abstrakce stavového prostoru.
+    Kromě vlastní reprezentace světa a jeho momentálního rozložení obsahuje
+    i řídící konstrukce, jako reference na svého předka či operátor, který
+    byl na předka aplikován a z čehož vznikla daná instance.
+    """
 
-    def __init__(self, field: Field, parent: "State" = None, operator: "Operator" = None):
-        """"""
+    def __init__(self, field: Field, parent: "State" = None,
+                 operator: "Operator" = None):
+        """Initor třídy, který přijímá referenci na políčko, které reprezetnuje
+        dané aktuální rozložení. Dále přijímá volitelný parametr pro rodiče,
+        ze kterého tato instance byla stvořena, a operátor coby přechodovou
+        funkci, který to zprostředkoval (taktéž volitelný).
+        """
         self._field = field
         self._parent = parent
         self._operator = operator
@@ -87,12 +96,16 @@ class State:
         return isinstance(other, State) and self.field == other.field
 
 
-
 class Operator:
-    """"""
+    """Operátor plní roli přechodové funkce pro převod z jednoho stavu do
+    druhého. V rámci reprezentace grafu pak operátor plní roli hrany grafu
+    mezi uzly (stavy).
+    """
 
     def __init__(self, direction: Direction):
-        """"""
+        """Initor, který přijímá směr, kterým se lze v bludišti vydat. Samotná
+        instance pak plní roli abstrakce nad skutečností posunu v bludišti.
+        """
         self._direction = direction
 
     @property
@@ -146,7 +159,10 @@ class Operator:
 
 
 class StateSpace:
-    """"""
+    """Stavový prostor plní roli pomocné přepravky pro důležité objekty.
+    Sám o sobě je abstrakcí nad úlohou prohledávání prostoru stavů a operátorů,
+    s cílem nalézt cestu mezi počátečním a cílovým políčkem v bludišti.
+    """
 
     def __init__(self, available_ops: Iterable[Operator], initial_state: State):
         """"""
