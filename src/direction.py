@@ -1,11 +1,19 @@
-""""""
+"""Modul obsahuje definici směru coby základního nástroje pro vyjádření
+posunu ve 2D světě."""
 
 
 class Direction:
-    """"""
+    """Instance této třídy reprezentují nástroj pro popis posunu ve 2D světě.
+    Směry jsou zamýšleny jako ortogonální a globální (E-N-W-S).
+
+    Způsob posunu je pak chápán jako vektorové vyjádření změny souřadnic
+    aplikací daného směru (x_diff a y_diff).
+    """
 
     def __init__(self, name: str, x_diff: int, y_diff: int):
-        """"""
+        """Initor třídy, který přijímá název směru a velikost posunů v
+        osách x a y.
+        """
         self._name = name
         self._x_diff = x_diff
         self._y_diff = y_diff
@@ -17,12 +25,12 @@ class Direction:
 
     @property
     def x_diff(self) -> int:
-        """Posun v ose x"""
+        """Velikost posunu v ose x"""
         return self._x_diff
 
     @property
     def y_diff(self):
-        """Posun v ose y"""
+        """Velikost posunu v ose y"""
         return self._y_diff
 
 
