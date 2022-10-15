@@ -1,5 +1,8 @@
 """"""
 
+
+from typing import Iterable
+
 from .maze import Field, Maze
 from .direction import Direction
 
@@ -117,6 +120,7 @@ class Operator:
         Pokud nelze tento operátor na daný stav aplikovat, je vyhozena výjimka.
         """
 
+        # Pokud nelze aplikovat musí být tento pokus přerušen chybou
         if not self.can_be_applied(state):
             raise Exception(f"Nelze aplikovat operátor {self} na stav {state}")
 
@@ -132,5 +136,28 @@ class Operator:
         return State(field=destination, parent=state, operator=self)
 
 
+class StateSpace:
+    """"""
 
+    def __init__(self, available_ops: Iterable[Operator], initial_state: State):
+        """"""
+        self._operators = available_ops
+        self._initial_state = initial_state
+
+    @property
+    def available_operators(self) -> tuple[Operator]:
+        """Dostupné operátory, které lze pro prohledávání stavového prostoru
+        použít."""
+        return tuple(self._operators)
+
+    @property
+    def initial_state(self) -> State:
+        """Vrací výchozí stav, ze kterého je prohledávání započato. Typicky
+        ho lze chápat dvojím způsobem:
+
+            - Jako starovní políčko v bludišti
+            - Na obecné úrovni jako kořen stromu stavového prostoru, který
+              nemá žádného předka (podstata stromu)
+        """
+        return self._initial_state
 
