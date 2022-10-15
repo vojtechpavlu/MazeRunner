@@ -78,6 +78,15 @@ class State:
         # Vrať seznam všech aplikovaných operátorů jako ntici
         return tuple(operators)
 
+    def __eq__(self, other: object) -> bool:
+        """Dunder metoda umožňující porovnávání objektů pomocí operátoru ==.
+        Samotné porovnání je postaveno na porovnávání políčka; v první řadě
+        (aby se předešlo logickým chybám) je porovnávána příslušnost dodaného
+        objektu `other` k třídě `State`.
+        """
+        return isinstance(other, State) and self.field == other.field
+
+
 
 class Operator:
     """"""
