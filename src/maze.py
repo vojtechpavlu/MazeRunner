@@ -33,6 +33,9 @@ class Field:
         self._y = y
         self._character = character
 
+        # Z praktických důvodů může mít políčko referenci na bludiště
+        self._maze: Maze = None
+
     @property
     def x(self) -> int:
         """Souřadnice osy x tohoto políčka."""
@@ -68,6 +71,16 @@ class Field:
         """Zda-li je toto políčko počátečním či nikoliv."""
         return self.character == START
 
+    @property
+    def maze(self) -> "Maze":
+        """Bludiště, jehož je toto políčko součástí."""
+        return self._maze
+
+    @maze.setter
+    def maze(self, maze: "Maze"):
+        """Setter pro bludiště, kterého má být toto políčko součástí."""
+        self._maze = maze
+
     def __str__(self):
         """Dunder metoda vracející textovou reprezentaci instance."""
         return f"[{self.x}, {self.y}]"
@@ -88,6 +101,10 @@ class Maze:
 
         # Dodaná políčka se převádí na seznam
         self._fields = list(fields)
+
+        # Pro každé své políčko nastav sebe jako bludiště
+        for field in self.fields:
+            field.maze = self
 
     @property
     def fields(self) -> tuple[Field]:
