@@ -205,3 +205,17 @@ class StateSpace:
         Pokud je cílem, musí být totožný se stavem finálním.
         """
         return self.final_state == state
+
+    def available_operators_for_state(self, state: State) -> tuple[Operator]:
+        """Metoda vrací ntici všech operátorů, které lze aplikovat na dodaný
+        stav. O možnostech aplikace se rozhoduje autonomně každý původně
+        dodaný operátor sám.
+        """
+        # Vrací ntici vytvořenou z profiltrované sady operátorů
+        return tuple(filter(
+
+            # Lambda funkce, která pro každý operátor ověří aplikovatelnost
+            lambda operator: operator.can_be_applied(state),
+
+            # Vstupní soubor operátorů, který se má profiltrovat
+            self.available_operators))
