@@ -164,10 +164,12 @@ class StateSpace:
     s cílem nalézt cestu mezi počátečním a cílovým políčkem v bludišti.
     """
 
-    def __init__(self, available_ops: Iterable[Operator], initial_state: State):
+    def __init__(self, available_ops: Iterable[Operator], initial_state: State,
+                 final_state: State):
         """"""
         self._operators = available_ops
         self._initial_state = initial_state
+        self._final_state = final_state
 
     @property
     def available_operators(self) -> tuple[Operator]:
@@ -186,3 +188,16 @@ class StateSpace:
         """
         return self._initial_state
 
+    @property
+    def final_state(self) -> State:
+        """Vrací referenci na dodaný hypotetický stav, který má reprezentovat
+        cíl. Ten je vytvořen uměle, ještě před spuštěním algoritmu pro nalezení
+        cesty mezi výchozím a cílovým stavem."""
+        return self._final_state
+
+    def is_final_state(self, state: State) -> bool:
+        """Metoda, která vrací booleovskou informaci o tom, zda-li je dodaný
+        stav cílový či nikoliv.
+        Pokud je cílem, musí být totožný se stavem finálním.
+        """
+        return self.final_state == state
