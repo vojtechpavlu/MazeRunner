@@ -1,6 +1,7 @@
 """"""
 
-from .maze import Field
+from .maze import Field, Maze
+from .direction import Direction
 
 
 class State:
@@ -16,6 +17,16 @@ class State:
     def field(self) -> Field:
         """Políčko, které reprezentuje tento stav."""
         return self._field
+
+    @property
+    def field_coords(self) -> tuple[int, int]:
+        """Zkrácená notace pro získání souřadnic políčka."""
+        return self.field.x, self.field.y
+
+    @property
+    def maze(self) -> Maze:
+        """Zkrácená notace pro získání reference na bludiště."""
+        return self.field.maze
 
     @property
     def parent(self) -> "State":
@@ -64,8 +75,62 @@ class State:
         # Vrať seznam všech aplikovaných operátorů jako ntici
         return tuple(operators)
 
+
 class Operator:
     """"""
+
+    def __init__(self, direction: Direction):
+        """"""
+        self._direction = direction
+
+    @property
+    def direction(self) -> Direction:
+        """Vrací směr, který reprezentuje daný operátor."""
+        return self._direction
+
+    def can_be_applied(self, state: State) -> bool:
+        """Metoda vrací informaci o tom, zda-li je možné aplikovat tento
+        operátor na daný stav.
+
+        Z vysokoúrovňového pohledu musí políčko v daném bludišti existovat
+        a nesmí být zdí. Pokud že jsou tyto dvě podmínky splněny, pak vrací
+        True, jinak False.
+        """
+        # Souřadnice nového políčka
+        x, y = self.direction.neighbour_coordinates(*state.field_coords)
+
+        # Pokud neexistuje políčko s takovými souřadnicemi
+        if not state.maze.has_field(x, y):
+            return False
+
+        # Pokud je na zadaném políčku zeď
+        elif state.maze.field(x, y).is_wall:
+            return False
+
+        # Jinak
+        return True
+
+    def apply(self, state: State) -> State:
+        """Metoda, která aplikuje tento operátor na dodaný stav, čímž vytvoří
+        stav nový. Ten je metodou vrácen.
+
+        Pokud nelze tento operátor na daný stav aplikovat, je vyhozena výjimka.
+        """
+
+        if not self.can_be_applied(state):
+            raise Exception(f"Nelze aplikovat operátor {self} na stav {state}")
+
+        # Souřadnice nového políčka
+        x, y = self.direction.neighbour_coordinates(*state.field_coords)
+
+        # Získá referenci na vyhledanou instanci políčka o daných souřadnicích
+        destination = state.maze.field(x, y)
+
+        # Vrátí nově vytvořenou instanci stavu s dodaným novým políčkem,
+        # referencí na stav, ze kterého byl vytvořen, a na operátor, který
+        # byl k tvorbě použit (self)
+        return State(field=destination, parent=state, operator=self)
+
 
 
 
