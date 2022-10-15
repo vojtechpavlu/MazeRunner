@@ -85,6 +85,15 @@ class Field:
         """Dunder metoda vracející textovou reprezentaci instance."""
         return f"[{self.x}, {self.y}]"
 
+    def __eq__(self, other: object) -> bool:
+        """Metoda porovnává dodaný objekt, zda-li je políčkem na stejných
+        souřadnicích. Tím je umožněno porovnávání pomocí operátoru ==.
+        Vrací True pokud jsou pro obě políčka stejné souřadnice os x i y.
+        Pochopitelně by nemělo být používáno pro porovnávání políček různých
+        bludišť.
+        """
+        return isinstance(other, Field) and other.xy == self.xy
+
 
 class Maze:
     """Instance této třídy jsou odpovědné za udržování informace o bludišti
