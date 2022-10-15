@@ -168,7 +168,7 @@ def load_maze(filename: str) -> Maze:
     with open(maze_path, "r", encoding="utf-8") as reader:
 
         # Filtrace řádků, aby zbyly pouze neprázdné
-        lines = filter_empty_lines(reader.readlines())
+        lines = reversed(filter_empty_lines(reader.readlines()))
 
         # Pro každý řádek souboru reprezentující řádek mapy
         for row_number, row in enumerate(lines):
@@ -177,7 +177,7 @@ def load_maze(filename: str) -> Maze:
             for column_number, character in enumerate(tuple(row)):
 
                 # Přidej políčko do seznamu políček
-                fields.append(Field(row_number, column_number, character))
+                fields.append(Field(column_number, row_number, character))
 
     # Ze seznamu políček vytvoř instanci bludiště a vrať ji
     return Maze(fields)
