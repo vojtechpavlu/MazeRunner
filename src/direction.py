@@ -33,6 +33,12 @@ class Direction:
         """Velikost posunu v ose y"""
         return self._y_diff
 
+    def neighbour_coordinates(self, x: int, y: int) -> tuple[int, int]:
+        """Funkce vrací souřadnice po posunu v tomto směru.
+        Ve skutečnosti nemusí dané souřadnice v daném bludišti vůbec
+        existovat."""
+        return x + self.x_diff, y + self.y_diff
+
 
 DEFAULT_DIRECTIONS = (
     Direction("EAST", 1, 0),
