@@ -1,8 +1,12 @@
-""""""
+"""Tento modul obsahuje definici abstrakční roviny pro oproštění se od
+představy bludiště a pro možnosti použití prakticky libovolného algoritmu
+pro prohledávání stavového prostoru při aplikaci na hledání cesty v bludišti.
+"""
 
-
+# Import společného protokolu pro iterovatelné objekty
 from typing import Iterable
 
+# Import potřebných zdrojů pro napojení abstrakce na bludiště ("realitu")
 from .maze import Field, Maze
 from .direction import Direction
 
