@@ -161,6 +161,11 @@ class Operator:
         # byl k tvorbě použit (self)
         return State(field=destination, parent=state, operator=self)
 
+    def __repr__(self) -> str:
+        """Metoda vrací textovou reprezentaci operátoru založenou na názvu
+        směru, který operátor představuje."""
+        return self.direction.direction_name
+
 
 class StateSpace:
     """Stavový prostor plní roli pomocné přepravky pro důležité objekty.
