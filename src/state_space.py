@@ -211,7 +211,7 @@ class StateSpace:
         """
         return self.final_state == state
 
-    def available_operators_for_state(self, state: State) -> tuple[Operator]:
+    def available_for_state(self, state: State) -> tuple[Operator]:
         """Metoda vrací ntici všech operátorů, které lze aplikovat na dodaný
         stav. O možnostech aplikace se rozhoduje autonomně každý původně
         dodaný operátor sám.
