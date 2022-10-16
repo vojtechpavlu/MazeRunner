@@ -166,6 +166,13 @@ class Operator:
         směru, který operátor představuje."""
         return self.direction.direction_name
 
+    @staticmethod
+    def create_operators() -> tuple["Operator"]:
+        """Statická funkce, která si dokáže samostatně opatřit všechny
+        operátory pro všechny dostupné směry.
+        """
+        return tuple([Operator(d) for d in Direction.get_all_directions()])
+
 
 class StateSpace:
     """Stavový prostor plní roli pomocné přepravky pro důležité objekty.
