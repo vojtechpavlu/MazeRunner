@@ -19,7 +19,7 @@ class DepthFirstSearch(Algorithm):
         bude hledat.
         """
         # Volání initoru předka, tedy Algorithm.__init__(str, StateSpace)
-        super().__init__("Depth First Search", state_space)
+        super().__init__("Depth-First Search", state_space)
 
     @property
     def get_from_fringe(self) -> State:
@@ -27,7 +27,7 @@ class DepthFirstSearch(Algorithm):
         Tato implementace pro potřeby algoritmu DFS chápe seznam fringe jako
         zásobník (LIFO), bere tedy prvky z konce.
         """
-        return self._fringe.pop()
+        return self._fringe.pop()  # Bez indexu metoda pop bere poslední prvek
 
     def run(self) -> State:
         """Implementace algoritmu DFS.
