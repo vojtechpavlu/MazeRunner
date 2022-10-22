@@ -1,9 +1,10 @@
-
+from src.algorithms.random_algorithm import Random
 from src.state_space import StateSpace, State, Operator
 from src.maze import load_maze
 from src.algorithms.depth_first_search import DepthFirstSearch
 from src.algorithms.breath_first_search import BreathFirstSearch
 from src.algorithms.a_star import AStar
+import time
 
 
 # Připrav si všechny operátory
@@ -19,18 +20,29 @@ ss = StateSpace(operators, State(maze.start_field), State(maze.goal_field))
 algorithms = [
     DepthFirstSearch(ss),
     BreathFirstSearch(ss),
-    AStar(ss)
+    AStar(ss),
+    Random(ss)
 ]
 
 # Pro každý z algoritmů
 for algo in algorithms:
 
+    # Spusť časovač (v nanosekundách)
+    start = time.time_ns()
+
     # Spusť si algoritmus a získej cestu
-    path = algo.run().whole_path
+    final_state = algo.run()
+
+    # Ukonči časovač (v nanosekundách)
+    end = time.time_ns()
+
+    # Nalezená cesta
+    path = final_state.whole_path
 
     # Vypiš délku cesty a cestu
     print(f"{algo.algorithm_name}, Počet kroků: {len(path)}")
     print(f"Délka fringe a closed: {len(algo.fringe)}, {len(algo.closed)}")
     print(f"Nalezená cesta: {path}")
+    print(f"Doba hledání cesty: {(end - start) / 10 ** 6} ms")
     print(100*"-", "\n")
 
