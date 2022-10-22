@@ -206,7 +206,12 @@ strom stavového prostoru tzv. *po vrstvách*. A díky tomu ostatně algoritmus
 garantuje nejen nalezení řešení, ale garantuje i nalezení optimální cesty.
 
 Jeho slabinou jsou ovšem vysoké nároky na paměť (velikost `fringe`). Ty rostou
-exponenciálně s prohledávanou hloubkou $$BF^{depth}$$
+exponenciálně s prohledávanou hloubkou 
+
+$$branching^{depth}$$
+
+kde `branching` (branching factor) odpovídá počtu operátorů aplikovatelných
+na stav a `depth` odpovídá hloubce stavu.
 
 ### A Star (A*)
 
