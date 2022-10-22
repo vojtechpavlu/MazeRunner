@@ -167,8 +167,12 @@ def load_maze(filename: str) -> Maze:
     """Funkce, která se pokusí najít soubor ve standardním adresáři a vytvořit
     z něj bludiště.
     """
+
+    # Cesta ke kořeni projektu
+    project_dir = os.path.dirname(os.path.dirname(__file__))
+
     # Cesta k souboru, ve kterém je definice bludiště
-    maze_path = os.path.join(os.path.dirname(__file__), "mazes", filename)
+    maze_path = os.path.join(project_dir, "mazes", filename)
 
     # Seznam políček, ze kterých se má bludiště sestávat
     fields: list[Field] = []
