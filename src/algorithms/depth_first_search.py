@@ -56,7 +56,12 @@ class DepthFirstSearch(Algorithm):
             elif self.is_in_closed(current_state):
                 continue
             else:
-                for o in self.state_space.available_for_state(current_state):
+                # Pro zkrácení kódu uloženo do proměnné
+                ops = self.state_space.available_for_state(current_state)
+
+                # Převrácené pořadí operátorů pro výsledky srovnatelné s
+                # grafickým znázorněním prohledávání stromu zleva doprava
+                for o in reversed(ops):
                     self.remember_state(o.apply(current_state))
                 self.close_state(current_state)
 
