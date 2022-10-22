@@ -39,10 +39,9 @@ class Direction:
         existovat."""
         return x + self.x_diff, y + self.y_diff
 
-
-DEFAULT_DIRECTIONS = (
-    Direction("EAST", 1, 0),
-    Direction("NORTH", 0, 1),
-    Direction("WEST", -1, 0),
-    Direction("SOUTH", 0, -1),
-)
+    @staticmethod
+    def get_all_directions() -> "tuple[Direction]":
+        """Statická funkce, která vrací instance všech ortogonálních směrů,
+        které jsou ve 2D světě dostupné."""
+        return (Direction("EAST", 1, 0), Direction("NORTH", 0, 1),
+                Direction("WEST", -1, 0), Direction("SOUTH", 0, -1),)
