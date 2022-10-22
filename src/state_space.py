@@ -65,31 +65,48 @@ class State:
         """Všichni rodiče aktuálního stavu v ntici."""
         parents = []
 
-        # Pokud máš rodiče
+        # Ukazatel na aktuálně prohledávaného rodiče
+        current_ancestor = self.parent
+
+        # Pokud tento stav má rodiče
         if self.has_parent:
 
-            # Přidej všechny rodičovské stavy svého rodiče
-            parents.extend(self.parent.all_parents)
+            # Dokud má aktuální předek rodiče
+            while current_ancestor.has_parent:
 
-            # Přidej svého aktuálního rodiče
-            parents.append(self.parent)
+                # Přidej mezi operátory ten, díky kterému vznikl
+                parents.append(current_ancestor.parent)
 
-        # Vrať svůj seznam rodičů jako ntici
-        return tuple(parents)
+                # Nastav jako aktuálního předka rodiče tohoto předka
+                current_ancestor = current_ancestor.parent
+
+        # Vrať seznam všech aplikovaných operátorů jako ntici
+        return tuple(reversed(parents))
 
     @property
     def whole_path(self) -> tuple["Operator"]:
         """Vrací celou cestu (sekvenci operátorů) až k tomuto stavu."""
-        operators = []
-        if self.has_parent:
-            # Přidej celou cestu ke svému rodičovskému stavu
-            operators.extend(self.parent.whole_path)
 
-            # Přidej operátor, který byl použit pro vytvoření tohoto stavu
-            operators.append(self.applied_operator)
+        # Pomocný seznam všech operátorů
+        operators = []
+
+        # Ukazatel na aktuálně prohledávaného rodiče
+        current_ancestor = self.parent
+
+        # Pokud tento stav má rodiče
+        if self.has_parent:
+
+            # Dokud má aktuální předek rodiče
+            while current_ancestor.has_parent:
+
+                # Přidej mezi operátory ten, díky kterému vznikl
+                operators.append(current_ancestor.applied_operator)
+
+                # Nastav jako aktuálního předka rodiče tohoto předka
+                current_ancestor = current_ancestor.parent
 
         # Vrať seznam všech aplikovaných operátorů jako ntici
-        return tuple(operators)
+        return tuple(reversed(operators))
 
     def __eq__(self, other: object) -> bool:
         """Dunder metoda umožňující porovnávání objektů pomocí operátoru ==.
