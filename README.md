@@ -173,6 +173,7 @@ while len(fringe) > 0:
   else:
     for operator in available_operators(current_state):
       fringe.append(operator.apply(current_state))
+    closed.append(current_state)
 
 # Pokud byly prohledány všechny stavy z fringe a řešení nenalezeno
 raise Exception("Řešení neexistuje")
