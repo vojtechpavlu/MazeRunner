@@ -56,6 +56,11 @@ class Field:
         """Znak, který reprezentuje dané políčko."""
         return self._character
 
+    @character.setter
+    def character(self, new_character: str):
+        """Setter na znak, který reprezentuje dané políčko."""
+        self._character = new_character
+
     @property
     def is_wall(self) -> bool:
         """Zda-li je toto políčko stěnou či nikoliv."""
@@ -87,7 +92,11 @@ class Field:
 
     def __str__(self):
         """Dunder metoda vracející textovou reprezentaci instance."""
-        return f"[{self.x}, {self.y}]"
+        return f"Field({self.x}, {self.y}, {self.character})"
+
+    def __repr__(self):
+        """Dunder metoda vracející textovou reprezentaci instance."""
+        return f"{self.character}"
 
     def __eq__(self, other: object) -> bool:
         """Metoda porovnává dodaný objekt, zda-li je políčkem na stejných
