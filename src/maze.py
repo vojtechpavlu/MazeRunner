@@ -155,6 +155,10 @@ class Maze:
             if field.x == x and field.y == y:
                 return field
 
+    def clone(self) -> "Maze":
+        """Metoda, která vrací hlubokou kopii tohoto bludiště."""
+        return Maze([field.clone() for field in self.fields])
+
 
 def filter_empty_lines(lines: Iterable[str]) -> tuple[str]:
     """Funkce přijímá seznam řádků, ty ořízne o počáteční a koncové bílé znaky
