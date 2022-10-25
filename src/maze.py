@@ -81,6 +81,10 @@ class Field:
         """Setter pro bludiště, kterého má být toto políčko součástí."""
         self._maze = maze
 
+    def clone(self) -> "Field":
+        """Funkce, která vytvoří kompletní kopii tohoto objektu."""
+        return Field(self.x, self.y, self.character)
+
     def __str__(self):
         """Dunder metoda vracející textovou reprezentaci instance."""
         return f"[{self.x}, {self.y}]"
