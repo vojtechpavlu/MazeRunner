@@ -84,6 +84,13 @@ class State:
         return tuple(reversed(parents))
 
     @property
+    def all_states(self) -> tuple["State"]:
+        """"""
+        all_parents = list(self.all_parents)
+        all_parents.append(self.parent)
+        return tuple(all_parents)
+
+    @property
     def whole_path(self) -> tuple["Operator"]:
         """Vrací celou cestu (sekvenci operátorů) až k tomuto stavu."""
 
@@ -199,7 +206,11 @@ class StateSpace:
 
     def __init__(self, available_ops: Iterable[Operator], initial_state: State,
                  final_state: State):
-        """"""
+        """Initor, který přijímá sadu operátorů, které lze v daném stavovém
+        prostoru použít pro prohledávání. Dále přijímá počáteční stav, ze
+        kterého prohledávání začíná (kořen stromu) a deskripci stavu cílového,
+        kterého je snaha dosáhnout.
+        """
         self._operators = available_ops
         self._initial_state = initial_state
         self._final_state = final_state
