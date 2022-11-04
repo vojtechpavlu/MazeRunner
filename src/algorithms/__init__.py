@@ -9,6 +9,7 @@ from .depth_first_search import DepthFirstSearch
 from .breath_first_search import BreathFirstSearch
 from .a_star import AStar
 from .gradient_search import GradientSearch
+from .greedy_search import GreedySearch
 from .random_algorithm import Random
 from .algorithm import Algorithm
 
@@ -25,5 +26,6 @@ def all_algorithms(state_space: StateSpace) -> tuple[Algorithm]:
         BreathFirstSearch(state_space),
         AStar(state_space),
         GradientSearch(state_space),
+        GreedySearch(state_space),
         Random(state_space),
     )
