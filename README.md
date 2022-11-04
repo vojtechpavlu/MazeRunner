@@ -236,7 +236,7 @@ Samotnou heuristickou funkcí, která poskytuje službu ohodnocení bonity stavu
 Pro všechny stavy `s` z množiny všech stavů `S` při zobrazení kartézského
 součinu mezi množinami `S` a `S` na reálná čísla 
 ( $s \in S, S \times S \rightarrow \mathbb{R}$ ) existuje hodnotící funkce `d`
-taková, že:
+taková, že: 
 
 1. $\forall s_{1}, s_{2} \in S, d(s_{1}, s_{2}) \geq 0$
 2. $\forall s_{1}, s_{2} \in S, d(s_{1}, s_{2}) = d(s_{2}, s_{1})$
