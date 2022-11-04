@@ -151,6 +151,26 @@ class Maze:
         # Pokud nebylo nalezeno cílové políčko
         raise Exception("Cílové políčko nebylo nalezeno")
 
+    @property
+    def width(self) -> int:
+        """Šířka bludiště coby rozdíl mezi nejmenší a největší souřadnicí x.
+        """
+        # Předpočítání políček s nejmenší a největší souřadnicí x
+        min_x = min(self.fields, key=lambda f: f.x)
+        max_x = max(self.fields, key=lambda f: f.x)
+
+        return max_x.x - min_x.x + 1
+
+    @property
+    def height(self) -> int:
+        """Šířka bludiště coby rozdíl mezi nejmenší a největší souřadnicí x.
+        """
+        # Předpočítání políček s nejmenší a největší souřadnicí y
+        min_y = min(self.fields, key=lambda f: f.y)
+        max_y = max(self.fields, key=lambda f: f.y)
+
+        return max_y.y - min_y.y + 1
+
     def has_field(self, x: int, y: int) -> bool:
         """Metoda vrací, zda-li má bludiště políčko o daných souřadnicích.
         """
