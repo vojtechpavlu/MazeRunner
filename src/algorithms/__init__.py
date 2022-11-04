@@ -8,8 +8,9 @@ from src.state_space import StateSpace
 from .depth_first_search import DepthFirstSearch
 from .breath_first_search import BreathFirstSearch
 from .a_star import AStar
+from .gradient_search import GradientSearch
 from .random_algorithm import Random
-from src.algorithms.algorithm import Algorithm
+from .algorithm import Algorithm
 
 
 def all_algorithms(state_space: StateSpace) -> tuple[Algorithm]:
@@ -23,5 +24,6 @@ def all_algorithms(state_space: StateSpace) -> tuple[Algorithm]:
         DepthFirstSearch(state_space),
         BreathFirstSearch(state_space),
         AStar(state_space),
+        GradientSearch(state_space),
         Random(state_space),
     )
