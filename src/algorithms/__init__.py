@@ -5,10 +5,10 @@ prostoru reprezentujícího abstrakci nad bludištěm.
 
 from src.state_space import StateSpace
 
-from depth_first_search import DepthFirstSearch
-from breath_first_search import BreathFirstSearch
-from a_star import AStar
-from random_algorithm import Random
+from .depth_first_search import DepthFirstSearch
+from .breath_first_search import BreathFirstSearch
+from .a_star import AStar
+from .random_algorithm import Random
 from src.algorithms.algorithm import Algorithm
 
 
