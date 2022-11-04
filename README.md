@@ -163,7 +163,7 @@ while len(fringe) > 0:
   
   # Zkontroluj, zda není konečný
   if is_final_state(current_state):
-    return current_state
+    raise Success("Nalezeno řešení", current_state)
   
   # Zkontroluj, zda již nebyl prohledáván
   elif is_in_closed(current_state):
@@ -176,14 +176,23 @@ while len(fringe) > 0:
     closed.append(current_state)
 
 # Pokud byly prohledány všechny stavy z fringe a řešení nenalezeno
-raise Exception("Řešení neexistuje")
+raise Failure("Řešení neexistuje")
 ````
 
 Většina algoritmů se pak v praxi liší jen v přístupu k poskytování dalšího
 prvku k prohledání (reprezentováno řádkem 
 `current_state = fringe.remove_and_return()`).
 
-### Depth-First Search (DFS)
+### Slepé algoritmy prohledávání grafů
+
+Slepé algoritmy prohledávání stavového prostoru stojí na principu rozevírání
+uzlů z `fringe` postupně, ignoruje jejich vhodnost. Nepoužívají ke svému
+rozhodování žádných dodaných informací, proto se jim také mnohdy říká tzv.
+***neinformované algoritmy pro prohledávání stavového prostoru***.
+
+Mezi základní zástupce bez pochyby patří prohledávání do hloubky a do šířky.
+
+#### Depth-First Search (DFS)
 
 Jednoduchá implementace algoritmu pro slepé (**neinformované**) prohledávání
 grafu do hloubky. Tato implementace je poplatná obecnému pojetí tohoto obecného
@@ -199,7 +208,7 @@ Algoritmus ovšem negarantuje ani nalezení optimální cesty. V našem pojetí
 chápeme optimalitu jen jako počet kroků k cíli.
 
 
-### Breath-First Search (BFS)
+#### Breath-First Search (BFS)
 
 Algoritmus prakticky identický k DFS; s tím rozdílem, že jeho `fringe` je
 chápána jako fronta (`FIFO`). Díky tomu je schopen algoritmus procházet
@@ -214,7 +223,54 @@ $$branching^{depth}$$
 kde `branching` (branching factor) odpovídá počtu operátorů aplikovatelných
 na stav a `depth` odpovídá hloubce stavu.
 
-### A Star (A*)
+
+### Heuristické algoritmy prohledávání grafů
+
+Heuristické algoritmy pro prohledávání stavového prostoru narozdíl od algoritmů
+neinformovaných ke svému rozhodování dodané informace používají. Typicky tato
+informace pramení z vlastností problému.
+
+Samotnou heuristickou funkcí, která poskytuje službu ohodnocení bonity stavu,
+často bývá nějaká metrika, pro kterou platí následující pravidla:
+
+Pro všechny stavy `s` z množiny všech stavů `S` při zobrazení kartézského
+součinu mezi množinami `S` a `S` na reálná čísla 
+( $s \in S, S \times S \rightarrow \mathbb{R}$ ) existuje hodnotící funkce `d`
+taková, že: 
+
+1. $\forall s_{1}, s_{2} \in S, d(s_{1}, s_{2}) \geq 0$
+2. $\forall s_{1}, s_{2} \in S, d(s_{1}, s_{2}) = d(s_{2}, s_{1})$
+3. $\forall s_{1}, s_{2} \in S, d(s_{1}, s_{2}) = 0 \Leftrightarrow s_{1} = s_{2}$
+4. $\forall s_{1}, s_{2}, s_{3} \in S, d(s_{1}, s_{2}) + d(s_{2}, s_{3}) \geq d(s_{1}, s_{3})$
+
+
+V bludišti je preferována metrika euklidovské vzdálenosti, ale podobně by bylo
+možné použít např. *Manhattonské vzdálenosti* (nebo také tzv. *Taxicab Distance*),
+poněkud specificky by bylo možné užít *cosinové* či *hammingovy vzdálenosti*.
+
+
+#### Greedy algoritmus
+
+Hladový algoritmus je algoritmus pro uspořádané prohledávání stavového prostoru.
+Jeho podstata spočívá na snaze preferovat některé cesty, které se zdají být
+perspektivními před těmi, které se tak nezdají. Toho je dosaženo pomocí výběru
+vždy nejvýhodnější další cesty z `fringe`.
+
+Proto dokáže již od počátku směřovat správným směrem, ovšem za cenu poměrně 
+vysokých nároků na čas a na paměť.
+
+
+#### Algoritmus pro gradientní prohledávání
+
+Gradientní prohledávání je podobný přístup, jako je u hladového algoritmu, jen
+s tím rozdílem, že má pouze jednoprvkovou `fringe`. Jakmile dojde do bodu, kdy
+již neexistuje zlepšení, algoritmus končí.
+
+Tím však vzniká riziko uvíznutí v lokálním extrému. V bludišti k tomu pak dojde,
+zajde-li algoritmus do slepé uličky.
+
+
+#### A Star (A*)
 
 Algoritmus prochází stavový prostor obdobně, jako předchozí dva, ale opět se
 liší ve způsobu poskytování následujícího stavu k prohledání.
