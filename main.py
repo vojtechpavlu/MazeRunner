@@ -1,9 +1,10 @@
-from src.algorithms.random_algorithm import Random
+
+from src.printer import print_maze
 from src.state_space import StateSpace, State, Operator
 from src.maze import load_maze
-from src.algorithms.depth_first_search import DepthFirstSearch
-from src.algorithms.breath_first_search import BreathFirstSearch
-from src.algorithms.a_star import AStar
+
+from src.algorithms import all_algorithms
+
 import time
 
 
@@ -11,18 +12,13 @@ import time
 operators = Operator.create_operators()
 
 # Připrav si bludiště
-maze = load_maze("maze_15x15.txt")
+maze = load_maze("maze_30x18.txt")
 
 # Připrav si stavový prostor (operátory, počátek a cíl)
 ss = StateSpace(operators, State(maze.start_field), State(maze.goal_field))
 
 # Připrav si algoritmy
-algorithms = [
-    DepthFirstSearch(ss),
-    BreathFirstSearch(ss),
-    AStar(ss),
-    Random(ss)
-]
+algorithms = all_algorithms(ss)
 
 # Pro každý z algoritmů
 for algo in algorithms:
@@ -38,6 +34,11 @@ for algo in algorithms:
 
     # Nalezená cesta
     path = final_state.whole_path
+
+    print_maze(
+        maze.clone(),
+        [state.field.xy for state in final_state.all_states][1:]
+    )
 
     # Vypiš délku cesty a cestu
     print(f"{algo.algorithm_name}, Počet kroků: {len(path)}")
