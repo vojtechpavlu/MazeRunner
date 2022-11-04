@@ -84,6 +84,45 @@ class Algorithm(ABC):
         prohledávání."""
 
 
+class Success(Exception):
+    """Výjimka reprezentující úspěšné vyřešení úlohy. Výjimka zde není chápána
+    jako chyba, nýbrž jako úspěšné splnění cíle.
+
+    Z povahy práce výjimek je pak snazší postoupit místu volání nejen výstup
+    (i v případě rekurzivní exekuce kódu), ale i sémantiku způsobu vyřešení.
+    """
+
+    def __init__(self, message: str, final_state: State):
+        """Initor, který přijímá zprávu o vyřešení úlohy a cílový stav.
+        """
+        Exception.__init__(self, message)
+        self._final_state = final_state
+
+    @property
+    def final_state(self) -> State:
+        """Stav, který byl nalezen a ze kterého lze získat řešení problému."""
+        return self._final_state
 
 
+class Failure(Exception):
+    """Výjimka reprezentující neúspěšné řešení úlohy. V pravém slova smyslu
+    zde jde o chybu způsobenou bezvýchodnou situací - například že je řešení
+    nedosažitelné."""
+
+    def __init__(self, message: str, last_valid_state: State = None):
+        """Initor, který přijímá textovou zprávu o chybě a poslední validní
+        nalezený stav. Ten je volitelným parametrem; defaultně `None`.
+        """
+        Exception.__init__(self, message)
+        self._last_valid_state = last_valid_state
+
+    @property
+    def has_last_valid_state(self) -> bool:
+        """Vrací, zda-li byl či nebyl dodán poslední validní stav."""
+        return self._last_valid_state is not None
+
+    @property
+    def last_valid_state(self) -> State:
+        """Poslední validní nalezený stav, který však není cílovým."""
+        return self._last_valid_state
 
