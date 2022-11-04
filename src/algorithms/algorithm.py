@@ -71,17 +71,46 @@ class Algorithm(ABC):
         stavů."""
         self._closed.append(state)
 
+    def run(self):
+        """Metoda, která spouští algoritmus. Implementace této metody sama o
+        sobě definuje, jak bude algoritmus postupovat při prohledávání.
+
+        Zde je uveden obecný algoritmus pro prohledávání stavového prostoru,
+        tuto metodu lze volitelně překrýt, či využít stávající implementace.
+
+        Tato implementace funguje na principu postupného rozevírání uzlů a
+        přidávání potomků těchto uzlů do seznamu stavů k budoucímu prohledání.
+        Toto prohledávání je iterativně prováděno, dokud tento seznam stavů
+        k prohledání je neprázdný. Jakmile se tento vyprázdní a řešení nebylo
+        nalezeno, je vyhozena chyba. V opačném případě se pro každý stav
+        porovnává, zda-li není cílový, což vede k úspěšnému ukončení. Není-li,
+        zjišťuje se, zda-li již nebyl prohledáván. Pokud ne, jsou přidáni
+        všichni jeho potomci do seznamu k dalšímu prohledání.
+
+        Výsledkem běhu algoritmu je typicky vyhození výjimky. V pozitivním
+        případě je vyhozena výjimka `Success` reprezentující úspěšné nalezení
+        cílového řešení. V opačném případě výjimka `Failure`, která naopak
+        značí, že algoritmus při hledání selhal.
+        """
+        while len(self.fringe) > 0:
+            current_state = self.get_from_fringe
+            if self.state_space.is_final_state(current_state):
+                raise Success("Byl nalezen cílový stav!", current_state)
+            elif self.is_in_closed(current_state):
+                continue
+            else:
+                for o in self.state_space.available_for_state(current_state):
+                    self.remember_state(o.apply(current_state))
+                self.close_state(current_state)
+
+        # Pokud již není co prohledávat a řešení nebylo nalezeno
+        raise Failure("Byly prohledány všechny dosažitelné stavy a nic...")
+
     @property
     @abstractmethod
     def get_from_fringe(self) -> State:
         """Abstraktní metoda, která vrací element ze seznamu stavů k rozevření.
         """
-
-    @abstractmethod
-    def run(self) -> State:
-        """Abstraktní metoda, která spouští algoritmus. Implementace této
-        metody sama o sobě definuje, jak bude algoritmus postupovat při
-        prohledávání."""
 
 
 class Success(Exception):
