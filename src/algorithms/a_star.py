@@ -68,27 +68,6 @@ class AStar(Algorithm):
         # a^2 + b^2 = c^2, resp. (a^2 + b^2)^(1/2) = c
         return (((fin_x - curr_x) ** 2) + ((fin_y - curr_y) ** 2)) ** 0.5
 
-    def run(self) -> State:
-        """Implementace algoritmu A*.
-
-        Algoritmus je jakousi anabází na prohledávání do šířky, přičemž však
-        nevybírá další stavy k prohledání ze seznamu fringe jako z fronty,
-        nýbrž si vybírá ten, který je nejvýhodnější - co do délky cesty k
-        danému stavu, tak i co do odhadu cesty k cíli.
-        """
-        while len(self.fringe) > 0:
-            current_state = self.get_from_fringe
-            if self.state_space.is_final_state(current_state):
-                return current_state
-            elif self.is_in_closed(current_state):
-                continue
-            else:
-                for o in self.state_space.available_for_state(current_state):
-                    self.remember_state(o.apply(current_state))
-                self.close_state(current_state)
-
-        raise Exception("Byly prohledány všechny dosažitelné stavy a nic...")
-
     @staticmethod
     def g(state: State) -> int:
         """Metoda počítá cenu cesty, kolik stálo dostat se do daného stavu.
